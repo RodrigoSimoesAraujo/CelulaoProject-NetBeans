@@ -4,57 +4,12 @@ package br.com.celulao.bean;
  * Created by SYSTEM on 17/11/2016.
  */
 public abstract class Pessoall {
-    private int tipo;
-    private int cod_pessoa;
-    private String Estado;
-    private String Cidade;
-    private String Endereço;
-    private String[] Telefone;
+    private Integer cod_pessoa;
+    public Pessoall() { }
 
-    public Pessoall(int tipo,
-                    int cod_pessoa,
-                    String estado,
-                    String cidade,
-                    String endereço,
-                    String[] telefone) {
-        this.tipo = tipo;
-        this.cod_pessoa = cod_pessoa;
-        Estado = estado;
-        Cidade = cidade;
-        Endereço = endereço;
-        Telefone = telefone;
-    }
+    public abstract int getTipo();
 
-    public String getEstado() {
-        return Estado;
-    }
+    public Integer getCod_pessoa() { return cod_pessoa; }
 
-    public String getCidade() {
-        return Cidade;
-    }
-
-    public String getEndereço() {
-        return Endereço;
-    }
-
-    public String[] getTelefone() {
-        return Telefone;
-    }
-
-    public void setEstado(String estado) {
-        Estado = estado;
-    }
-
-    public void setCidade(String cidade) {
-        Cidade = cidade;
-    }
-
-    public void setEndereço(String endereço) {
-        Endereço = endereço;
-    }
-
-    public void setTelefone(String[] telefone) {
-        Telefone = telefone;
-    }
-
+    public void setCod_pessoa(Integer cod_pessoa) { if(cod_pessoa==null)this.cod_pessoa = cod_pessoa; }
 }

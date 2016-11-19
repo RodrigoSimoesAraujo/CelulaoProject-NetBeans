@@ -3,24 +3,19 @@ package br.com.celulao.bean;
 /**
  * Created by SYSTEM on 17/11/2016.
  */
-public final class PessoaJuridica extends Pessoall{
+public abstract class PessoaJuridica extends Pessoall{
     private String RazaoSocial;
     private String NomeFantasia;
     private String InsMunicipal;
     private String InsEstadual;
     private String CNPJ;
 
-    public PessoaJuridica(int cod_pessoa,
-                          String estado,
-                          String cidade,
-                          String endereço,
-                          String[] telefone,
-                          String razaoSocial,
+    public PessoaJuridica(String razaoSocial,
                           String nomeFantasia,
                           String insMunicipal,
                           String insEstadual,
                           String CNPJ) {
-        super(1, cod_pessoa, estado, cidade, endereço, telefone);
+        super();
         RazaoSocial = razaoSocial;
         NomeFantasia = nomeFantasia;
         InsMunicipal = insMunicipal;
