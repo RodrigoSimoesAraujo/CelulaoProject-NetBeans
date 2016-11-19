@@ -1,5 +1,4 @@
 package br.com.celulao.test;
-
 import br.com.celulao.bean.ClientePJ;
 import br.com.celulao.bean.ClientePF;
 import br.com.celulao.bean.PessoaFisica;
