@@ -5,11 +5,12 @@ package br.com.celulao.bean;
  */
 public abstract class Pessoall {
     private Integer cod_pessoa;
+
     public Pessoall() { }
 
     public abstract int getTipo();
 
     public Integer getCod_pessoa() { return cod_pessoa; }
 
-    public void setCod_pessoa(Integer cod_pessoa) { if(cod_pessoa==null)this.cod_pessoa = cod_pessoa; }
+    public void setCod_pessoa(Integer cod_pessoa) { if(this.cod_pessoa==null)this.cod_pessoa = cod_pessoa; }
 }

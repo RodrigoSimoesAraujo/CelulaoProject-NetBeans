@@ -10,7 +10,7 @@ import java.sql.SQLException;
 /**
  * Created by SYSTEM on 19/11/2016.
  */
-public class Authentication {
+public class AuthenticationService {
     public static TipoPessoa LogOnCPF(String CPF){
         FuncionarioDAO funcByCPF = new FuncionarioDAO();
         try{

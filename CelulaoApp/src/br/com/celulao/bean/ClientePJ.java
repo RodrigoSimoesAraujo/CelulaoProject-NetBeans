@@ -9,7 +9,7 @@ public final class ClientePJ extends PessoaJuridica implements Cliente{
     private static int tipo = TipoPessoa.ClientePJ.getTipo();
     private PessoaFisica responsavel;
 
-    public ClientePJ(String estado, String cidade, String endereço, String[] telefone, String razaoSocial, String nomeFantasia, String insMunicipal, String insEstadual, String CNPJ, PessoaFisica responsavel) {
+    public ClientePJ(String razaoSocial, String nomeFantasia, String insMunicipal, String insEstadual, String CNPJ, PessoaFisica responsavel) {
         super(razaoSocial, nomeFantasia, insMunicipal, insEstadual, CNPJ);
         this.responsavel = responsavel;
     }
