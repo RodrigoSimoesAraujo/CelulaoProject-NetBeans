@@ -1,15 +1,17 @@
 package br.com.celulao.gui;
 
-import br.com.celulao.bean.ClientePF;
-import br.com.celulao.bean.ClientePJ;
-import br.com.celulao.bean.FuncionarioAtendente;
+import br.com.celulao.bean.ClientePFBean;
+import br.com.celulao.bean.ClientePJBean;
+import br.com.celulao.bean.OrdemServicoBean;
 import br.com.celulao.gui.utils.Alert;
 import br.com.celulao.service.ClienteService;
+import br.com.celulao.service.OrdemServicoService;
 import br.com.celulao.utils.validators;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
+import java.util.List;
 
 public class HomeAtendente extends JDialog {
     private JPanel contentPane;
@@ -88,6 +90,7 @@ public class HomeAtendente extends JDialog {
     }
 
     private void onCadastrarCliente() {
+        //TODO implementar o cadastro de cliente
         prepFieldsNovoCliente();
     }
 
@@ -97,14 +100,20 @@ public class HomeAtendente extends JDialog {
         Boolean isCNPJDigitado = CNPJRadioButton.isSelected();
 
         if(isCPFDigitado && validators.isCPFValid(clienteCPFouCNPF)){
-            ClientePF clientePFFound = ClienteService.searchClientePFByCPF(clienteCPFouCNPF);
-            if(clientePFFound==null) Alert.showAlertOnField("Não encontramos o cliente.", txtCPFouCNPJCliente);
-            else showDadosCliente(clientePFFound);
+            ClientePFBean clientePFBeanFound = ClienteService.searchClientePFByCPF(clienteCPFouCNPF);
+            if(clientePFBeanFound ==null) Alert.showAlertOnField("Não encontramos o cliente.", txtCPFouCNPJCliente);
+            else {
+                showDadosCliente(clientePFBeanFound);
+                showListaOrdemServico(OrdemServicoService.searchOrdemServicoByCliente(clientePFBeanFound));
+            }
         }
         else if(isCNPJDigitado && validators.isCNPJValid(clienteCPFouCNPF)){
-            ClientePJ clientePJFound = ClienteService.searchClientePJByCNPJ(clienteCPFouCNPF);
-            if(clientePJFound==null) Alert.showAlertOnField("Não encontramos o cliente.", txtCPFouCNPJCliente);
-            else showDadosCliente(clientePJFound);
+            ClientePJBean clientePJBeanFound = ClienteService.searchClientePJByCNPJ(clienteCPFouCNPF);
+            if(clientePJBeanFound ==null) Alert.showAlertOnField("Não encontramos o cliente.", txtCPFouCNPJCliente);
+            else{
+                showDadosCliente(clientePJBeanFound);
+                showListaOrdemServico(OrdemServicoService.searchOrdemServicoByCliente(clientePJBeanFound));
+            }
         }else{
             Alert.showAlertOnField("Você digitou um CPF ou CNPJ inválido! Tente novamente.", txtCPFouCNPJCliente);
         }
@@ -123,8 +132,6 @@ public class HomeAtendente extends JDialog {
         setContentFieldsCliente("");
         btnSalvarDadosCliente.setVisible(false);
         panelDadosCliente.setVisible(true);
-        cmbOrdensServicoCliente.removeAllItems();
-        panelOrdemServico.setVisible(true);
     }
 
     private void prepFieldsNovoCliente(){
@@ -135,7 +142,19 @@ public class HomeAtendente extends JDialog {
         panelOrdemServico.setVisible(false);
     }
 
-    private void showDadosCliente(ClientePF cliente){
+    private void showListaOrdemServico(List<OrdemServicoBean> ordemServico){
+        prepListBoxOrdemServico();
+        for(int i=0;i<ordemServico.size();i++){
+            cmbOrdensServicoCliente.addItem(ordemServico.get(i));
+        }
+    }
+
+    private void prepListBoxOrdemServico(){
+        cmbOrdensServicoCliente.removeAllItems();
+        panelOrdemServico.setVisible(true);
+    }
+
+    private void showDadosCliente(ClientePFBean cliente){
         prepFieldsClienteEncontrado();
 
         txtCodCliente.setText(cliente.getCod_pessoa().toString());
@@ -153,7 +172,7 @@ public class HomeAtendente extends JDialog {
         txtEstadoCliente.setText(cliente.getEstado());
     }
 
-    private void showDadosCliente(ClientePJ cliente){
+    private void showDadosCliente(ClientePJBean cliente){
         prepFieldsClienteEncontrado();
 
         txtCodCliente.setText(cliente.getCod_pessoa().toString());

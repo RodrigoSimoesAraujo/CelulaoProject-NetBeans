@@ -58,12 +58,12 @@ public class Home extends JDialog {
         }else{
             TipoPessoa tipoPessoa = AuthenticationService.LogOnCPF(userCPF);
 
-            if(tipoPessoa.getTipo()==TipoPessoa.FuncionarioAtendente.getTipo()) {
+            if(tipoPessoa.getTipoValue()==TipoPessoa.FuncionarioAtendente.getTipoValue()) {
                 Alert.showAlertOnField("Você foi reconhecido como um funcionário atendente!", txtUserCPF);
                 dispose();
                 HomeAtendente.run(userCPF);
             }
-            else if(tipoPessoa.getTipo() == TipoPessoa.FuncionarioTecnico.getTipo()) {
+            else if(tipoPessoa.getTipoValue() == TipoPessoa.FuncionarioTecnico.getTipoValue()) {
                 Alert.showAlertOnField("Você foi reconhecido como um funcionário técnico!", txtUserCPF);
             }
             else

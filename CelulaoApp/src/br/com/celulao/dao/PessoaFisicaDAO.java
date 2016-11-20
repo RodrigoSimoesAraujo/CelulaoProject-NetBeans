@@ -1,5 +1,5 @@
 package br.com.celulao.dao;
-import br.com.celulao.bean.PessoaFisica;
+import br.com.celulao.bean.PessoaFisicaBean;
 import br.com.celulao.dao.DBConnection.MySQLDriverManager;
 
 import java.sql.Connection;
@@ -12,11 +12,11 @@ import java.sql.SQLException;
  */
 public abstract class PessoaFisicaDAO {
 
-    protected void insert (PessoaFisica obj){}
-    protected void delete (PessoaFisica obj){}
-    protected void update (PessoaFisica obj){}
+    protected void insert (PessoaFisicaBean obj){}
+    protected void delete (PessoaFisicaBean obj){}
+    protected void update (PessoaFisicaBean obj){}
 
-    protected PessoaFisica findPessoaFisicaByCPF(String CPF) throws SQLException {
+    protected PessoaFisicaBean findPessoaFisicaByCPF(String CPF) throws SQLException {
 
         Connection conn = MySQLDriverManager.getConnection();
         String query = "Select * from pessoa where CPF = ?";
@@ -24,7 +24,7 @@ public abstract class PessoaFisicaDAO {
         selectByID.setString(1,CPF);
         ResultSet rs = selectByID.executeQuery();
 
-        PessoaFisica returnPF = bindResultSetToPessoaFisica(rs);
+        PessoaFisicaBean returnPF = bindResultSetToPessoaFisica(rs);
 
         rs.close();
         conn.close();
@@ -32,14 +32,14 @@ public abstract class PessoaFisicaDAO {
         return returnPF;
     }
 
-    protected PessoaFisica findPessoaFisicaByID(Integer id) throws SQLException {
+    protected PessoaFisicaBean findPessoaFisicaByID(Integer id) throws SQLException {
         Connection conn = MySQLDriverManager.getConnection();
         String query = "Select * from pessoa where codpessoa = ?";
         PreparedStatement selectByID = conn.prepareStatement(query);
         selectByID.setInt(1,id);
         ResultSet rs = selectByID.executeQuery();
 
-        PessoaFisica returnPF = bindResultSetToPessoaFisica(rs);
+        PessoaFisicaBean returnPF = bindResultSetToPessoaFisica(rs);
 
         rs.close();
         conn.close();
@@ -47,7 +47,7 @@ public abstract class PessoaFisicaDAO {
         return returnPF;
     }
 
-    private PessoaFisica bindResultSetToPessoaFisica(ResultSet rs) throws SQLException{
+    private PessoaFisicaBean bindResultSetToPessoaFisica(ResultSet rs) throws SQLException{
         Integer cod_pessoa= null;
         String nome= null;
         String telefone1= null;
@@ -71,7 +71,7 @@ public abstract class PessoaFisicaDAO {
             pessoaTipo = rs.getInt("PessoaTipo");
         }
         if(cod_pessoa==null) return null;
-        PessoaFisica returnPF = new PessoaFisica(
+        PessoaFisicaBean returnPF = new PessoaFisicaBean(
                 estado,cidade,endereco, new String[]{telefone1,telefone2}, nome, RG, CPF);
         returnPF.setCod_pessoa(cod_pessoa);
         returnPF.setTipo(pessoaTipo);

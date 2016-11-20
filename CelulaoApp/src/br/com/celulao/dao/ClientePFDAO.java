@@ -1,6 +1,6 @@
 package br.com.celulao.dao;
-import br.com.celulao.bean.ClientePF;
-import br.com.celulao.bean.PessoaFisica;
+import br.com.celulao.bean.ClientePFBean;
+import br.com.celulao.bean.PessoaFisicaBean;
 import br.com.celulao.constants.TipoPessoa;
 
 import java.sql.SQLException;
@@ -8,14 +8,14 @@ import java.sql.SQLException;
 /**
  * Created by SYSTEM on 19/11/2016.
  */
-public class ClientePFDAO extends PessoaFisicaDAO implements DAO<ClientePF> {
-        public void insert (ClientePF obj){}
-        public void delete (ClientePF obj){}
-        public void update (ClientePF obj){}
+public class ClientePFDAO extends PessoaFisicaDAO implements DAO<ClientePFBean> {
+        public void insert (ClientePFBean obj){}
+        public void delete (ClientePFBean obj){}
+        public void update (ClientePFBean obj){}
 
-        public ClientePF findByID(Integer id) throws SQLException {
+        public ClientePFBean findByID(Integer id) throws SQLException {
             try{
-                PessoaFisica pfFound = findPessoaFisicaByID(id);
+                PessoaFisicaBean pfFound = findPessoaFisicaByID(id);
                 if(pfFound==null) return null;
                 return bindPessoaFisicaToClientePF(pfFound);
             }catch (SQLException e){
@@ -24,9 +24,9 @@ public class ClientePFDAO extends PessoaFisicaDAO implements DAO<ClientePF> {
             }
         }
 
-        public ClientePF findByCPF(String CPF) throws SQLException {
+        public ClientePFBean findByCPF(String CPF) throws SQLException {
             try{
-                PessoaFisica pfFound = findPessoaFisicaByCPF(CPF);
+                PessoaFisicaBean pfFound = findPessoaFisicaByCPF(CPF);
                 if(pfFound==null) return null;
                 return bindPessoaFisicaToClientePF(pfFound);
             }catch (SQLException e){
@@ -35,9 +35,9 @@ public class ClientePFDAO extends PessoaFisicaDAO implements DAO<ClientePF> {
             }
         }
 
-        private ClientePF bindPessoaFisicaToClientePF(PessoaFisica PF){
-            if(PF.getTipo()!= TipoPessoa.ClientePF.getTipo()) return null;
-            ClientePF returnClientePF = new ClientePF(
+        private ClientePFBean bindPessoaFisicaToClientePF(PessoaFisicaBean PF){
+            if(PF.getTipo()!= TipoPessoa.ClientePF.getTipoValue()) return null;
+            ClientePFBean returnClientePFBean = new ClientePFBean(
                     PF.getEstado(),
                     PF.getCidade(),
                     PF.getEndereço(),
@@ -45,7 +45,7 @@ public class ClientePFDAO extends PessoaFisicaDAO implements DAO<ClientePF> {
                     PF.getNome(),
                     PF.getRG(),
                     PF.getCPF());
-            returnClientePF.setCod_pessoa(PF.getCod_pessoa());
-            return returnClientePF;
+            returnClientePFBean.setCod_pessoa(PF.getCod_pessoa());
+            return returnClientePFBean;
         }
 }

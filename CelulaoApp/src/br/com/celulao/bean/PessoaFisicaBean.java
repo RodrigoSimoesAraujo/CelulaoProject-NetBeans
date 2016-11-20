@@ -5,7 +5,7 @@ import br.com.celulao.constants.TipoPessoa;
 /**
  * Created by SYSTEM on 17/11/2016.
  */
-public class PessoaFisica extends Pessoall{
+public class PessoaFisicaBean extends Pessoall{
     private String Nome;
     private String RG;
     private String CPF;
@@ -14,15 +14,15 @@ public class PessoaFisica extends Pessoall{
     private String Endereço;
     private String[] Telefone;
 
-    private int tipo = TipoPessoa.Undefined.getTipo();
+    private int tipo = TipoPessoa.Undefined.getTipoValue();
 
-    public PessoaFisica(String estado,
-                        String cidade,
-                        String endereço,
-                        String[] telefone,
-                        String nome,
-                        String RG,
-                        String CPF) {
+    public PessoaFisicaBean(String estado,
+                            String cidade,
+                            String endereço,
+                            String[] telefone,
+                            String nome,
+                            String RG,
+                            String CPF) {
         super();
         Nome = nome;
         this.RG = RG;

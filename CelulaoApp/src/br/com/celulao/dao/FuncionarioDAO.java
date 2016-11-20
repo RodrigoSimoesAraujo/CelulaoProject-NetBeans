@@ -1,8 +1,8 @@
 package br.com.celulao.dao;
-import br.com.celulao.bean.FuncionarioAtendente;
+import br.com.celulao.bean.FuncionarioAtendenteBean;
 import br.com.celulao.bean.Funcionario;
-import br.com.celulao.bean.FuncionarioTecnico;
-import br.com.celulao.bean.PessoaFisica;
+import br.com.celulao.bean.FuncionarioTecnicoBean;
+import br.com.celulao.bean.PessoaFisicaBean;
 import br.com.celulao.constants.TipoPessoa;
 import java.sql.SQLException;
 
@@ -16,7 +16,7 @@ public class FuncionarioDAO extends PessoaFisicaDAO implements DAO<Funcionario> 
 
     public Funcionario findByID(Integer id) throws SQLException {
         try{
-            PessoaFisica pfFound = findPessoaFisicaByID(id);
+            PessoaFisicaBean pfFound = findPessoaFisicaByID(id);
             if(pfFound==null) return null;
             return bindPessoaFisicaToFuncionario(pfFound);
         }catch (SQLException e){
@@ -27,7 +27,7 @@ public class FuncionarioDAO extends PessoaFisicaDAO implements DAO<Funcionario> 
 
     public Funcionario findByCPF(String CPF) throws SQLException {
         try{
-            PessoaFisica pfFound = findPessoaFisicaByCPF(CPF);
+            PessoaFisicaBean pfFound = findPessoaFisicaByCPF(CPF);
             if(pfFound==null) return null;
             return bindPessoaFisicaToFuncionario(pfFound);
         }catch (SQLException e){
@@ -36,10 +36,10 @@ public class FuncionarioDAO extends PessoaFisicaDAO implements DAO<Funcionario> 
         }
     }
 
-    private Funcionario bindPessoaFisicaToFuncionario(PessoaFisica PF){
-        if(PF.getTipo()== TipoPessoa.FuncionarioAtendente.getTipo()) {
-            FuncionarioAtendente returnFunc =
-                    new FuncionarioAtendente(PF.getEstado(),
+    private Funcionario bindPessoaFisicaToFuncionario(PessoaFisicaBean PF){
+        if(PF.getTipo()== TipoPessoa.FuncionarioAtendente.getTipoValue()) {
+            FuncionarioAtendenteBean returnFunc =
+                    new FuncionarioAtendenteBean(PF.getEstado(),
                             PF.getCidade(),
                             PF.getEndereço(),
                             PF.getTelefone(),
@@ -48,9 +48,9 @@ public class FuncionarioDAO extends PessoaFisicaDAO implements DAO<Funcionario> 
                             PF.getCPF());
             returnFunc.setCod_pessoa(PF.getCod_pessoa());
             return returnFunc;
-        }else if(PF.getTipo()== TipoPessoa.FuncionarioTecnico.getTipo()) {
-            FuncionarioTecnico returnFunc =
-                    new FuncionarioTecnico(PF.getEstado(),
+        }else if(PF.getTipo()== TipoPessoa.FuncionarioTecnico.getTipoValue()) {
+            FuncionarioTecnicoBean returnFunc =
+                    new FuncionarioTecnicoBean(PF.getEstado(),
                             PF.getCidade(),
                             PF.getEndereço(),
                             PF.getTelefone(),
