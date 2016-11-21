@@ -54,7 +54,7 @@ public class ServiceTest {
         ClientePFBean foundByCPF = ClienteService.searchClientePFByCPF("239457");
         Assert.assertEquals(foundByCPF.getCPF(),"239457");
 
-        List<OrdemServicoBean> ordemServicoBean = searchOrdemServicoByCliente(foundByCPF);
+        List<OrdemServicoBean> ordemServicoBean = foundByCPF.getOrdemServico();
         Assert.assertTrue(ordemServicoBean.size()>0);
         Integer indexOrdemServicoCliente= null;
         for(int i=0;i<ordemServicoBean.size();i++){
@@ -72,7 +72,7 @@ public class ServiceTest {
         ClientePFBean foundByCPF = ClienteService.searchClientePFByCPF("264719");
         Assert.assertEquals(foundByCPF.getCPF(),"264719");
 
-        List<OrdemServicoBean> ordemServicoBean = searchOrdemServicoByCliente(foundByCPF);
+        List<OrdemServicoBean> ordemServicoBean = foundByCPF.getOrdemServico();
         Assert.assertTrue(ordemServicoBean.size()==0);
     }
 
@@ -81,7 +81,7 @@ public class ServiceTest {
         ClientePJBean foundByCNPJ = ClienteService.searchClientePJByCNPJ("147012");
         Assert.assertEquals(foundByCNPJ.getCNPJ(),"147012");
 
-        List<OrdemServicoBean> ordemServicoBean = searchOrdemServicoByCliente(foundByCNPJ);
+        List<OrdemServicoBean> ordemServicoBean = foundByCNPJ.getOrdemServico();
         Assert.assertTrue(ordemServicoBean.size()>0);
         Integer indexOrdemServicoCliente= null;
         for(int i=0;i<ordemServicoBean.size();i++){

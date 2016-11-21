@@ -33,7 +33,6 @@ public class ClientePJDAO extends PessoaFisicaDAO implements DAO<ClientePJBean> 
         ClientePJBean returnPJ = bindResultSetToClientePJ(rs);
 
         rs.close();
-        conn.close();
 
         return returnPJ;
     }

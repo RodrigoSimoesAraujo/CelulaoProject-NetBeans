@@ -42,7 +42,6 @@ public abstract class PessoaFisicaDAO {
         PessoaFisicaBean returnPF = bindResultSetToPessoaFisica(rs);
 
         rs.close();
-        conn.close();
 
         return returnPF;
     }

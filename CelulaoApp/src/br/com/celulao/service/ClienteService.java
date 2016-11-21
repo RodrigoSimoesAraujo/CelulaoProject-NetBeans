@@ -15,6 +15,7 @@ public class ClienteService {
         ClientePFDAO searchCliente = new ClientePFDAO();
         try {
             ClientePFBean clientePFBeanFound = searchCliente.findByCPF(CPF);
+            OrdemServicoService.searchOrdemServicoByCliente(clientePFBeanFound);
             return clientePFBeanFound;
         } catch (SQLException e) {
             e.printStackTrace();
@@ -26,6 +27,7 @@ public class ClienteService {
         ClientePJDAO searchCliente = new ClientePJDAO();
         try {
             ClientePJBean clientePJBeanFound = searchCliente.findByCNPJ(CNPJ);
+            OrdemServicoService.searchOrdemServicoByCliente(clientePJBeanFound);
             return clientePJBeanFound;
         } catch (SQLException e) {
             e.printStackTrace();

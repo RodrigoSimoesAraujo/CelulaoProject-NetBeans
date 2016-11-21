@@ -9,14 +9,24 @@ import java.util.Properties;
  * Created by SYSTEM on 19/11/2016.
  */
 public class MySQLDriverManager {
-    public static Connection getConnection() throws SQLException {
-        Connection conn = null;
-        Properties connectionProps = new Properties();
-        connectionProps.put("user", "rootmobile");
-        connectionProps.put("password", "treko@121");
-        conn = DriverManager.getConnection(
-                "jdbc:mysql://db-celulao.mysql.uhserver.com:3306/db_celulao",connectionProps);
-        System.out.println("Connected to database");
-        return conn;
+    private static Connection mainConn;
+    private static Properties connectionProps = new Properties();
+
+    private MySQLDriverManager(){
+
+    }
+
+    public static synchronized Connection getConnection() throws SQLException {
+        if(mainConn == null || mainConn.isClosed() || !mainConn.isValid(5000)) {
+            connectionProps.put("user", "rootmobile");
+            connectionProps.put("password", "treko@121");
+            mainConn = DriverManager.getConnection(
+                    "jdbc:mysql://db-celulao.mysql.uhserver.com:3306/db_celulao", connectionProps);
+            System.out.println("Connected to database");
+            return mainConn;
+        }else{
+            System.out.println("Reusing DB connection");
+            return mainConn;
+        }
     }
 }

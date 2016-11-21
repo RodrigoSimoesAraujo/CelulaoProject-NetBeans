@@ -1,11 +1,11 @@
 package br.com.celulao.gui;
 
+import br.com.celulao.bean.Cliente;
 import br.com.celulao.bean.ClientePFBean;
 import br.com.celulao.bean.ClientePJBean;
 import br.com.celulao.bean.OrdemServicoBean;
 import br.com.celulao.gui.utils.Alert;
 import br.com.celulao.service.ClienteService;
-import br.com.celulao.service.OrdemServicoService;
 import br.com.celulao.utils.validators;
 
 import javax.swing.*;
@@ -42,8 +42,11 @@ public class HomeAtendente extends JDialog {
     private JButton btnSalvarDadosCliente;
     private JPanel panelOrdemServico;
     private JComboBox cmbOrdensServicoCliente;
-    private JButton novaOrdemDeServiçoButton;
+    private JButton btnCriarNovaOS;
+    private JButton btnConsultarOS;
     private JPanel panelCadastrarCliente;
+
+    private Cliente mainCliente;
 
     public HomeAtendente() {
         setContentPane(contentPane);
@@ -82,6 +85,16 @@ public class HomeAtendente extends JDialog {
                 onSearchCliente();
             }
         });
+        btnConsultarOS.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                onSelectionOrdemServico();
+            }
+        });
+        btnCriarNovaOS.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                onCriarNovaOrdemServico();
+            }
+        });
     }
 
     private void onCancel() {
@@ -92,6 +105,16 @@ public class HomeAtendente extends JDialog {
     private void onCadastrarCliente() {
         //TODO implementar o cadastro de cliente
         prepFieldsNovoCliente();
+        mainCliente = null;
+    }
+
+    private void onCriarNovaOrdemServico(){
+        HomeOrdemServico.run(mainCliente, null);
+    }
+
+    private void onSelectionOrdemServico(){
+        HomeOrdemServico.run(mainCliente,
+                (OrdemServicoBean) cmbOrdensServicoCliente.getSelectedItem() );
     }
 
     private void onSearchCliente() {
@@ -103,16 +126,18 @@ public class HomeAtendente extends JDialog {
             ClientePFBean clientePFBeanFound = ClienteService.searchClientePFByCPF(clienteCPFouCNPF);
             if(clientePFBeanFound ==null) Alert.showAlertOnField("Não encontramos o cliente.", txtCPFouCNPJCliente);
             else {
+                mainCliente = clientePFBeanFound;
                 showDadosCliente(clientePFBeanFound);
-                showListaOrdemServico(OrdemServicoService.searchOrdemServicoByCliente(clientePFBeanFound));
+                showListaOrdemServico(clientePFBeanFound.getOrdemServico());
             }
         }
         else if(isCNPJDigitado && validators.isCNPJValid(clienteCPFouCNPF)){
             ClientePJBean clientePJBeanFound = ClienteService.searchClientePJByCNPJ(clienteCPFouCNPF);
             if(clientePJBeanFound ==null) Alert.showAlertOnField("Não encontramos o cliente.", txtCPFouCNPJCliente);
             else{
+                mainCliente = clientePJBeanFound;
                 showDadosCliente(clientePJBeanFound);
-                showListaOrdemServico(OrdemServicoService.searchOrdemServicoByCliente(clientePJBeanFound));
+                showListaOrdemServico(clientePJBeanFound.getOrdemServico());
             }
         }else{
             Alert.showAlertOnField("Você digitou um CPF ou CNPJ inválido! Tente novamente.", txtCPFouCNPJCliente);
