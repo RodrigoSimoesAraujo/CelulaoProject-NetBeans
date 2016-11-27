@@ -9,7 +9,7 @@ import br.com.celulao.constants.TipoPessoa;
 import br.com.celulao.gui.utils.Alert;
 import br.com.celulao.utils.General;
 import br.com.celulao.service.AuthenticationService;
-import br.com.celulao.utils.Validators;
+import br.com.celulao.utils.validators;
 import java.awt.Dimension;
 import java.awt.Toolkit;
 
@@ -122,7 +122,7 @@ public class Home extends javax.swing.JDialog {
     private void onOK() {
         String userCPF = txtUserCPF.getText();
 
-        if(!Validators.isCPFValid(userCPF)){
+        if(!validators.isCPFValid(userCPF)){
             Alert.showAlertOnField("Você digitou um CPF inválido! Tente novamente.", txtUserCPF);
         }else{
             TipoPessoa tipoPessoa = AuthenticationService.LogOnCPF(userCPF);

@@ -13,7 +13,7 @@ import br.com.celulao.constants.TipoPessoa;
 import br.com.celulao.gui.utils.Alert;
 import br.com.celulao.service.ClienteService;
 import br.com.celulao.utils.General;
-import br.com.celulao.utils.Validators;
+import br.com.celulao.utils.validators;
 import java.awt.Dimension;
 import java.awt.Toolkit;
 import java.util.List;
@@ -112,7 +112,7 @@ public class HomeLogada extends javax.swing.JDialog {
         Boolean isCPFDigitado = CPFRadioButton.isSelected();
         Boolean isCNPJDigitado = CNPJRadioButton.isSelected();
 
-        if(isCPFDigitado && Validators.isCPFValid(clienteCPFouCNPF)){
+        if(isCPFDigitado && validators.isCPFValid(clienteCPFouCNPF)){
             ClientePFBean clientePFBeanFound = ClienteService.searchClientePFByCPF(clienteCPFouCNPF);
             if(clientePFBeanFound ==null) Alert.showAlertOnField("Não encontramos o cliente.", txtCPFouCNPJCliente);
             else {
@@ -121,7 +121,7 @@ public class HomeLogada extends javax.swing.JDialog {
                 showListaOrdemServico(clientePFBeanFound.getOrdemServico());
             }
         }
-        else if(isCNPJDigitado && Validators.isCNPJValid(clienteCPFouCNPF)){
+        else if(isCNPJDigitado && validators.isCNPJValid(clienteCPFouCNPF)){
             ClientePJBean clientePJBeanFound = ClienteService.searchClientePJByCNPJ(clienteCPFouCNPF);
             if(clientePJBeanFound ==null) Alert.showAlertOnField("Não encontramos o cliente.", txtCPFouCNPJCliente);
             else{
