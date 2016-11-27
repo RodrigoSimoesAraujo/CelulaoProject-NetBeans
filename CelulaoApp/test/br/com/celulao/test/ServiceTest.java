@@ -1,4 +1,5 @@
 package br.com.celulao.test;
+
 import br.com.celulao.bean.ClientePFBean;
 import br.com.celulao.bean.ClientePJBean;
 import br.com.celulao.bean.OrdemServicoBean;
@@ -10,7 +11,10 @@ import org.junit.Test;
 
 import java.util.List;
 
-import static br.com.celulao.service.OrdemServicoService.searchOrdemServicoByCliente;
+import static br.com.celulao.service.OrdemServicoService.*;
+import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * Created by SYSTEM on 19/11/2016.
@@ -60,7 +64,7 @@ public class ServiceTest {
         for(int i=0;i<ordemServicoBean.size();i++){
             if(ordemServicoBean.get(i).getCodOrdem()==5) indexOrdemServicoCliente=i;
         }
-        Assert.assertEquals(ordemServicoBean.get(indexOrdemServicoCliente).getCeularMarca(),"Nokia");
+        Assert.assertEquals(ordemServicoBean.get(indexOrdemServicoCliente).getCelularMarca(),"Nokia");
         Assert.assertEquals(ordemServicoBean.get(indexOrdemServicoCliente).getCelularModelo(),"XPTO3456");
         Assert.assertEquals(ordemServicoBean.get(indexOrdemServicoCliente).getCelularPartesEntregues(),"2 cabos usb");
         Assert.assertEquals(ordemServicoBean.get(indexOrdemServicoCliente).getCod_pessoa(),foundByCPF.getCod_pessoa());
@@ -87,7 +91,7 @@ public class ServiceTest {
         for(int i=0;i<ordemServicoBean.size();i++){
             if(ordemServicoBean.get(i).getCodOrdem()==6) indexOrdemServicoCliente=i;
         }
-        Assert.assertEquals(ordemServicoBean.get(indexOrdemServicoCliente).getCeularMarca(),"Lenovo");
+        Assert.assertEquals(ordemServicoBean.get(indexOrdemServicoCliente).getCelularMarca(),"Lenovo");
         Assert.assertEquals(ordemServicoBean.get(indexOrdemServicoCliente).getCelularModelo(),"RWX-7700");
         Assert.assertEquals(ordemServicoBean.get(indexOrdemServicoCliente)
                 .getCelularPartesEntregues(),"6 cabos usb e carregador");
@@ -95,4 +99,25 @@ public class ServiceTest {
                 foundByCNPJ.getResponsavel().getCod_pessoa());
         Assert.assertEquals(ordemServicoBean.get(indexOrdemServicoCliente).getPessoaTipo(),TipoPessoa.ClientePJ);
     }
+    
+    @Test
+    public void createOrdemServicoByClientePFWithOS(){
+        ClientePFBean foundByCPF = ClienteService.searchClientePFByCPF("955333");
+        Assert.assertEquals(foundByCPF.getCPF(),"955333");
+
+        Integer ordemServicoBefore = foundByCPF.getOrdemServico().size();
+        try {
+            createOrdemServicoByCliente(
+                    foundByCPF,
+                    "teste de marca",
+                    "teste de modelo",
+                    "teste partes entregues");
+            Assert.assertTrue(
+                    foundByCPF.getOrdemServico().size()>ordemServicoBefore);
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+            Assert.fail();
+        }
+    }
+
 }

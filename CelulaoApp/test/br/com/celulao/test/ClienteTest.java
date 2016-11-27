@@ -1,14 +1,19 @@
 package br.com.celulao.test;
+
+
 import br.com.celulao.bean.ClientePJBean;
 import br.com.celulao.bean.ClientePFBean;
-import br.com.celulao.bean.PessoaFisicaBean;
 import br.com.celulao.constants.TipoPessoa;
 import br.com.celulao.dao.ClientePFDAO;
 import br.com.celulao.dao.ClientePJDAO;
+import br.com.celulao.service.ClienteService;
 import org.junit.Assert;
 import org.junit.Test;
 
 import java.sql.SQLException;
+import java.util.Random;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * Created by SYSTEM on 17/11/2016.
@@ -18,47 +23,82 @@ public class ClienteTest {
     public void creatingClientePJ() {
         String[] telefones = new String[]{""};
         telefones[0] = "1322334455";
+        Random rd = new Random();
+        String RandomCPF = String.valueOf(rd.nextInt(99999)) + String.valueOf(rd.nextInt(99999));
+        String RandomCNPJ = String.valueOf(rd.nextInt(99999)) + String.valueOf(rd.nextInt(99999));
+        
+        ClientePJBean pj1Test;
+        try {
+            pj1Test = ClienteService.createClientePJ(
+                                                    "Casa de Massas SA",
+                                                    "Massas e festas",
+                                                    "12345678",
+                                                    "33998877",
+                                                    RandomCNPJ,
+                                                    "São Paulo", 
+                                                    "Santos",
+                                                    "Julio conceicao, 282",
+                                                    telefones,
+                                                    "Rodrigo Simões",
+                                                    "43852875X",
+                                                    RandomCPF);
+            
+            Assert.assertEquals(pj1Test.getNomeReferencia(), "Massas e festas");
+            Assert.assertEquals(pj1Test.getNomeFantasia(), "Massas e festas");
+            Assert.assertEquals(pj1Test.getRazaoSocial(), "Casa de Massas SA");
+            Assert.assertEquals(pj1Test.getCNPJ(), RandomCNPJ);
+            Assert.assertEquals(pj1Test.getInsEstadual(), "33998877");
+            Assert.assertEquals(pj1Test.getInsMunicipal(), "12345678");
+            Assert.assertEquals(pj1Test.getTipo().getTipoValue(), TipoPessoa.ClientePJ.getTipoValue());
 
-        PessoaFisicaBean responsavel = new PessoaFisicaBean(
-                "São Paulo", "Santos", "Julio conceicao, 282", telefones, "Rodrigo Simões", "43852875X", "31928233805");
+            Assert.assertEquals(pj1Test.getResponsavel().getNome(), "Rodrigo Simões");
+            Assert.assertEquals(pj1Test.getResponsavel().getCidade(), "Santos");
+            Assert.assertEquals(pj1Test.getResponsavel().getEstado(), "São Paulo");
+            Assert.assertEquals(pj1Test.getResponsavel().getCPF(), RandomCPF);
+            Assert.assertEquals(pj1Test.getResponsavel().getRG(), "43852875X");
+            Assert.assertEquals(pj1Test.getResponsavel().getEndereço(), "Julio conceicao, 282");
+            Assert.assertArrayEquals(pj1Test.getResponsavel().getTelefone(), telefones);
+            Assert.assertEquals(pj1Test.getResponsavel().getTipo().getTipoValue(), TipoPessoa.Undefined.getTipoValue());
+            
+        } catch (Exception ex) {
+            ex.printStackTrace();
+            Assert.fail();
+        }
 
-        ClientePJBean pj1Test = new ClientePJBean("Casa de Massas SA","Massas e festas", "12345678", "33998877",
-                "1239893843984/0001-10", responsavel);
-
-        Assert.assertEquals(pj1Test.getNomeReferencia(), "Massas e festas");
-        Assert.assertEquals(pj1Test.getNomeFantasia(), "Massas e festas");
-        Assert.assertEquals(pj1Test.getRazaoSocial(), "Casa de Massas SA");
-        Assert.assertEquals(pj1Test.getCNPJ(), "1239893843984/0001-10");
-        Assert.assertEquals(pj1Test.getInsEstadual(), "33998877");
-        Assert.assertEquals(pj1Test.getInsMunicipal(), "12345678");
-        Assert.assertEquals(pj1Test.getTipo(), TipoPessoa.ClientePJ.getTipoValue());
-
-        Assert.assertEquals(pj1Test.getResponsavel().getNome(), "Rodrigo Simões");
-        Assert.assertEquals(pj1Test.getResponsavel().getCidade(), "Santos");
-        Assert.assertEquals(pj1Test.getResponsavel().getEstado(), "São Paulo");
-        Assert.assertEquals(pj1Test.getResponsavel().getCPF(), "31928233805");
-        Assert.assertEquals(pj1Test.getResponsavel().getRG(), "43852875X");
-        Assert.assertEquals(pj1Test.getResponsavel().getEndereço(), "Julio conceicao, 282");
-        Assert.assertArrayEquals(pj1Test.getResponsavel().getTelefone(), telefones);
-        Assert.assertEquals(pj1Test.getResponsavel().getTipo(), TipoPessoa.Undefined.getTipoValue());
     }
 
     @Test
     public void creatingClientePF() {
         String[] telefones = new String[]{""};
         telefones[0] = "1322334455";
-        ClientePFBean pf1Test = new ClientePFBean(
-                "São Paulo", "Santos", "Julio conceicao, 282", telefones, "Rodrigo Simões", "43852875X", "31928233805");
-
-        Assert.assertEquals(pf1Test.getNomeReferencia(), "Rodrigo Simões");
-        Assert.assertEquals(pf1Test.getNome(), "Rodrigo Simões");
-        Assert.assertEquals(pf1Test.getCidade(), "Santos");
-        Assert.assertEquals(pf1Test.getEstado(), "São Paulo");
-        Assert.assertEquals(pf1Test.getCPF(), "31928233805");
-        Assert.assertEquals(pf1Test.getRG(), "43852875X");
-        Assert.assertEquals(pf1Test.getEndereço(), "Julio conceicao, 282");
-        Assert.assertArrayEquals(pf1Test.getTelefone(), telefones);
-        Assert.assertEquals(pf1Test.getTipo(), TipoPessoa.ClientePF.getTipoValue());
+        Random rd = new Random();
+        String RandomCPF = String.valueOf(rd.nextInt(99999)) + String.valueOf(rd.nextInt(99999));
+        
+        ClientePFBean pf1Test;
+        try {
+            pf1Test = ClienteService.createClientePF(
+                    "São Paulo",
+                    "Santos",
+                    "Julio conceicao, 282",
+                    telefones,
+                    "Rodrigo Simões",
+                    "43852875X",
+                    RandomCPF);
+            
+            Assert.assertEquals(pf1Test.getNomeReferencia(), "Rodrigo Simões");
+            Assert.assertEquals(pf1Test.getNome(), "Rodrigo Simões");
+            Assert.assertEquals(pf1Test.getCidade(), "Santos");
+            Assert.assertEquals(pf1Test.getEstado(), "São Paulo");
+            Assert.assertEquals(pf1Test.getCPF(), RandomCPF);
+            Assert.assertEquals(pf1Test.getRG(), "43852875X");
+            Assert.assertEquals(pf1Test.getEndereço(), "Julio conceicao, 282");
+            Assert.assertArrayEquals(pf1Test.getTelefone(), telefones);
+            Assert.assertEquals(pf1Test.getTipo().getTipoValue(), TipoPessoa.ClientePF.getTipoValue());
+            
+        } catch (Exception ex) {
+            ex.printStackTrace();
+            Assert.fail();
+        }
     }
 
     @Test
@@ -76,7 +116,7 @@ public class ClienteTest {
             Assert.assertEquals(byID.getCPF(),"239457");
             Assert.assertEquals(byID.getRG(),"24255331799");
             Assert.assertEquals(byID.getCod_pessoa().toString(),"15");
-            Assert.assertEquals(byID.getTipo(), TipoPessoa.ClientePF.getTipoValue());
+            Assert.assertEquals(byID.getTipo().getTipoValue(), TipoPessoa.ClientePF.getTipoValue());
         } catch (SQLException e) {
             e.printStackTrace();
             Assert.fail();
@@ -98,7 +138,7 @@ public class ClienteTest {
             Assert.assertEquals(byID.getCPF(),"239457");
             Assert.assertEquals(byID.getRG(),"24255331799");
             Assert.assertEquals(byID.getCod_pessoa().toString(),"15");
-            Assert.assertEquals(byID.getTipo(), TipoPessoa.ClientePF.getTipoValue());
+            Assert.assertEquals(byID.getTipo().getTipoValue(), TipoPessoa.ClientePF.getTipoValue());
         } catch (SQLException e) {
             e.printStackTrace();
             Assert.fail();
@@ -128,7 +168,7 @@ public class ClienteTest {
             Assert.assertEquals(clientePFByCNPJ.getCNPJ(), "41721");
             Assert.assertEquals(clientePFByCNPJ.getInsEstadual(), "5793");
             Assert.assertEquals(clientePFByCNPJ.getInsMunicipal(), "7748");
-            Assert.assertEquals(clientePFByCNPJ.getTipo(), TipoPessoa.ClientePJ.getTipoValue());
+            Assert.assertEquals(clientePFByCNPJ.getTipo().getTipoValue(), TipoPessoa.ClientePJ.getTipoValue());
 
             Assert.assertEquals(clientePFByCNPJ.getResponsavel().getNome(), "Travis");
             Assert.assertEquals(clientePFByCNPJ.getResponsavel().getCidade(), "São Paulo");
@@ -138,7 +178,7 @@ public class ClienteTest {
             Assert.assertEquals(clientePFByCNPJ.getResponsavel().getEndereço(), "6379 Euismod Rd.");
             Assert.assertEquals(clientePFByCNPJ.getResponsavel().getTelefone()[0], "1-100-182-5819");
             Assert.assertEquals(clientePFByCNPJ.getResponsavel().getTelefone()[1], "151-7210");
-            Assert.assertEquals(clientePFByCNPJ.getResponsavel().getTipo(), TipoPessoa.Undefined.getTipoValue());
+            Assert.assertEquals(clientePFByCNPJ.getResponsavel().getTipo().getTipoValue(), TipoPessoa.Undefined.getTipoValue());
 
         }catch (SQLException e){
             e.printStackTrace();

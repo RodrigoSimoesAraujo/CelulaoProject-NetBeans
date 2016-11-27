@@ -2,30 +2,27 @@ package br.com.celulao.dao;
 
 import br.com.celulao.bean.OrdemServicoBean;
 import br.com.celulao.constants.TipoPessoa;
-import br.com.celulao.dao.DAO;
 import br.com.celulao.dao.DBConnection.MySQLDriverManager;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
 /**
  * Created by SYSTEM on 20/11/2016.
  */
-public class OrdemServicoDAO implements DAO<OrdemServicoBean> {
-    public void insert (OrdemServicoBean obj){}
-    public void delete (OrdemServicoBean obj){}
-    public void update (OrdemServicoBean obj){}
+public class OrdemServicoDAO {
+    public static void delete (OrdemServicoBean obj){}
 
-    public OrdemServicoBean findByID(Integer id){
-        //TODO ordem de serviço por ID
-        return null;
+    public static OrdemServicoBean findByID(Integer id){
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
-    public List<OrdemServicoBean> findByCodCliente(Integer id) throws SQLException{
+    public static List<OrdemServicoBean> findByCodCliente(Integer id) throws SQLException{
         Connection conn = MySQLDriverManager.getConnection();
         String query = "SELECT * FROM ordemservico o where CodCliente = ?";
         PreparedStatement selectByCodCliente = conn.prepareStatement(query);
@@ -33,13 +30,12 @@ public class OrdemServicoDAO implements DAO<OrdemServicoBean> {
         ResultSet rs = selectByCodCliente.executeQuery();
 
         List<OrdemServicoBean> returnOdemServico = bindResultSetToListOrdemServico(rs);
-
         rs.close();
 
         return returnOdemServico;
     }
 
-    private List<OrdemServicoBean> bindResultSetToListOrdemServico(ResultSet rs) throws SQLException{
+    private static List<OrdemServicoBean> bindResultSetToListOrdemServico(ResultSet rs) throws SQLException{
         Integer codOrdem;
         Integer cod_pessoa;
         TipoPessoa pessoaTipo;
@@ -65,5 +61,41 @@ public class OrdemServicoDAO implements DAO<OrdemServicoBean> {
             }
         }
         return ordemServicoBeanListReturn;
+    }
+
+    public static void salveOrUpdate(OrdemServicoBean obj) throws SQLException {
+        if(obj.getCodOrdem()==null){
+            insert(obj);
+        }else{
+            update(obj);
+        }
+    }
+    
+    private static void insert(OrdemServicoBean obj) throws SQLException{
+        Connection conn = MySQLDriverManager.getConnection();
+        String query = 
+                "insert into ordemservico"
+                + "(CodCliente, PessoaTipoCliente, CelularMarca, CelularModelo, CelularPartesEntregues)"
+                + "values (?,?,?,?,?)";
+        PreparedStatement insert = conn.prepareStatement(query,Statement.RETURN_GENERATED_KEYS);
+        insert.setInt(1,obj.getCod_pessoa());
+        insert.setInt(2,obj.getPessoaTipo().getTipoValue());
+        insert.setString(3,obj.getCelularMarca());
+        insert.setString(4,obj.getCelularModelo());
+        insert.setString(5,obj.getCelularPartesEntregues());
+        
+        insert.executeUpdate();
+        ResultSet tableKeys = insert.getGeneratedKeys();
+        tableKeys.next();
+        Integer autoGenKey = tableKeys.getInt(1);
+        
+        if(autoGenKey>0)
+            obj.setCodOrdem(autoGenKey);
+        else
+            throw new SQLException("Não foi possível inserir este novo cliente.");
+    }
+    
+    private static void update(OrdemServicoBean obj) throws SQLException{
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 }

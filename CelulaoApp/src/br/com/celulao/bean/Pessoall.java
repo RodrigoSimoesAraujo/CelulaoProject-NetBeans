@@ -1,5 +1,7 @@
 package br.com.celulao.bean;
 
+import br.com.celulao.constants.TipoPessoa;
+
 /**
  * Created by SYSTEM on 17/11/2016.
  */
@@ -8,7 +10,7 @@ public abstract class Pessoall {
 
     public Pessoall() { }
 
-    public abstract int getTipo();
+    public abstract TipoPessoa getTipo();
 
     public Integer getCod_pessoa() { return cod_pessoa; }
 

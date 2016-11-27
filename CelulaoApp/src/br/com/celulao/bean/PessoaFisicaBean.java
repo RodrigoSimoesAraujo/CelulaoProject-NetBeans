@@ -14,7 +14,7 @@ public class PessoaFisicaBean extends Pessoall{
     private String Endereço;
     private String[] Telefone;
 
-    private int tipo = TipoPessoa.Undefined.getTipoValue();
+    private TipoPessoa tipo = TipoPessoa.Undefined;
 
     public PessoaFisicaBean(String estado,
                             String cidade,
@@ -61,7 +61,7 @@ public class PessoaFisicaBean extends Pessoall{
         Telefone = telefone;
     }
 
-    public void setTipo(int tipo) {
+    public void setTipo(TipoPessoa tipo) {
         this.tipo = tipo;
     }
 
@@ -93,5 +93,5 @@ public class PessoaFisicaBean extends Pessoall{
         return Telefone;
     }
 
-    public int getTipo() { return tipo; }
+    public TipoPessoa getTipo() { return tipo; }
 }
