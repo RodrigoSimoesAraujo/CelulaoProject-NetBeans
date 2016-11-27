@@ -9,10 +9,22 @@ public class OrdemServicoBean {
     private Integer codOrdem;
     private Integer cod_pessoa;
     private TipoPessoa pessoaTipo;
-    private String ceularMarca;
+    private String celularMarca;
     private String celularModelo;
     private String celularPartesEntregues;
 
+    public OrdemServicoBean(Integer cod_pessoa,
+                            TipoPessoa pessoaTipo,
+                            String ceularMarca,
+                            String celularModelo,
+                            String celularPartesEntregues) {
+        this.codOrdem = null;
+        this.cod_pessoa = cod_pessoa;
+        this.pessoaTipo = pessoaTipo;
+        this.celularMarca = ceularMarca;
+        this.celularModelo = celularModelo;
+        this.celularPartesEntregues = celularPartesEntregues;
+    }
     public OrdemServicoBean(Integer codOrdem,
                             Integer cod_pessoa,
                             TipoPessoa pessoaTipo,
@@ -22,7 +34,7 @@ public class OrdemServicoBean {
         this.codOrdem = codOrdem;
         this.cod_pessoa = cod_pessoa;
         this.pessoaTipo = pessoaTipo;
-        this.ceularMarca = ceularMarca;
+        this.celularMarca = ceularMarca;
         this.celularModelo = celularModelo;
         this.celularPartesEntregues = celularPartesEntregues;
     }
@@ -39,8 +51,8 @@ public class OrdemServicoBean {
         return pessoaTipo;
     }
 
-    public String getCeularMarca() {
-        return ceularMarca;
+    public String getCelularMarca() {
+        return celularMarca;
     }
 
     public String getCelularModelo() {
@@ -52,6 +64,23 @@ public class OrdemServicoBean {
     }
 
     public String toString(){
-        return getCeularMarca() + " - " + getCelularModelo();
+        return getCelularMarca() + " - " + getCelularModelo();
     }
+
+    public void setCodOrdem(Integer codOrdem) {
+        this.codOrdem = codOrdem;
+    }
+
+    public void setCelularMarca(String celularMarca) {
+        this.celularMarca = celularMarca;
+    }
+
+    public void setCelularModelo(String celularModelo) {
+        this.celularModelo = celularModelo;
+    }
+
+    public void setCelularPartesEntregues(String celularPartesEntregues) {
+        this.celularPartesEntregues = celularPartesEntregues;
+    }
+    
 }

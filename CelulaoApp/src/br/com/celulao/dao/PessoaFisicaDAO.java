@@ -1,23 +1,20 @@
 package br.com.celulao.dao;
 import br.com.celulao.bean.PessoaFisicaBean;
+import br.com.celulao.constants.TipoPessoa;
 import br.com.celulao.dao.DBConnection.MySQLDriverManager;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 
 /**
  * Created by SYSTEM on 19/11/2016.
  */
-public abstract class PessoaFisicaDAO {
+public class PessoaFisicaDAO{
 
-    protected void insert (PessoaFisicaBean obj){}
-    protected void delete (PessoaFisicaBean obj){}
-    protected void update (PessoaFisicaBean obj){}
-
-    protected PessoaFisicaBean findPessoaFisicaByCPF(String CPF) throws SQLException {
-
+    public static PessoaFisicaBean findPessoaFisicaByCPF(String CPF) throws SQLException {
         Connection conn = MySQLDriverManager.getConnection();
         String query = "Select * from pessoa where CPF = ?";
         PreparedStatement selectByID = conn.prepareStatement(query);
@@ -27,12 +24,11 @@ public abstract class PessoaFisicaDAO {
         PessoaFisicaBean returnPF = bindResultSetToPessoaFisica(rs);
 
         rs.close();
-        conn.close();
 
         return returnPF;
     }
 
-    protected PessoaFisicaBean findPessoaFisicaByID(Integer id) throws SQLException {
+    public static PessoaFisicaBean findPessoaFisicaByID(Integer id) throws SQLException {
         Connection conn = MySQLDriverManager.getConnection();
         String query = "Select * from pessoa where codpessoa = ?";
         PreparedStatement selectByID = conn.prepareStatement(query);
@@ -46,7 +42,7 @@ public abstract class PessoaFisicaDAO {
         return returnPF;
     }
 
-    private PessoaFisicaBean bindResultSetToPessoaFisica(ResultSet rs) throws SQLException{
+    private static PessoaFisicaBean bindResultSetToPessoaFisica(ResultSet rs) throws SQLException{
         Integer cod_pessoa= null;
         String nome= null;
         String telefone1= null;
@@ -73,7 +69,66 @@ public abstract class PessoaFisicaDAO {
         PessoaFisicaBean returnPF = new PessoaFisicaBean(
                 estado,cidade,endereco, new String[]{telefone1,telefone2}, nome, RG, CPF);
         returnPF.setCod_pessoa(cod_pessoa);
-        returnPF.setTipo(pessoaTipo);
+        returnPF.setTipo(TipoPessoa.get(pessoaTipo));
         return returnPF;
+    }
+
+
+    public static void salveOrUpdate(PessoaFisicaBean obj) throws SQLException {
+        if(obj.getCod_pessoa()==null){
+            insert(obj);
+        }else{
+            update(obj);
+        }
+    }
+    
+    private static void insert(PessoaFisicaBean obj) throws SQLException{
+        Connection conn = MySQLDriverManager.getConnection();
+        String query = 
+                "insert into pessoa"
+                + "(PessoaTipo, NomePessoa, Telefone1, Telefone2, Endereço, CPF, RG, Cidade, Estado)"
+                + "values (?,?,?,?,?,?,?,?,?)";
+        PreparedStatement insert = conn.prepareStatement(query,Statement.RETURN_GENERATED_KEYS);
+        insert.setInt(1,obj.getTipo().getTipoValue());
+        insert.setString(2,obj.getNome());
+        if(obj.getTelefone().length>0){
+            insert.setString(3,obj.getTelefone()[0]);
+            if(obj.getTelefone().length>1)
+                insert.setString(4,obj.getTelefone()[1]);
+            else
+                insert.setString(4,"");
+        }else{
+            insert.setString(3,"");
+            insert.setString(4,"");
+        }
+        insert.setString(5,obj.getEndereço());
+        insert.setString(6,obj.getCPF());
+        insert.setString(7,obj.getRG());
+        insert.setString(8,obj.getCidade());
+        insert.setString(9,obj.getEstado());
+        
+        insert.executeUpdate();
+        ResultSet tableKeys = insert.getGeneratedKeys();
+        tableKeys.next();
+        Integer autoGenKey = tableKeys.getInt(1);
+        
+        if(autoGenKey>0)
+            obj.setCod_pessoa(autoGenKey);
+        else
+            throw new SQLException("Não foi possível inserir este novo cliente.");
+    }
+    
+    private static void update(PessoaFisicaBean obj) throws SQLException{
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+
+    public static void delete(PessoaFisicaBean obj) throws SQLException {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+
+    public PessoaFisicaDAO findByID(Integer id) throws SQLException {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 }

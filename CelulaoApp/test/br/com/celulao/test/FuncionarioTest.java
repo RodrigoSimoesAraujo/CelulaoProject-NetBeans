@@ -28,7 +28,7 @@ public class FuncionarioTest {
         Assert.assertEquals(pf1Test.getRG(),"43852875X");
         Assert.assertEquals(pf1Test.getEndereço(),"Julio conceicao, 282");
         Assert.assertArrayEquals(pf1Test.getTelefone(),telefones);
-        Assert.assertEquals(pf1Test.getTipo(), TipoPessoa.FuncionarioAtendente.getTipoValue());
+        Assert.assertEquals(pf1Test.getTipo().getTipoValue(), TipoPessoa.FuncionarioAtendente.getTipoValue());
     }
 
     @Test
@@ -45,7 +45,7 @@ public class FuncionarioTest {
         Assert.assertEquals(pf1Test.getRG(),"43852875X");
         Assert.assertEquals(pf1Test.getEndereço(),"Julio conceicao, 282");
         Assert.assertArrayEquals(pf1Test.getTelefone(),telefones);
-        Assert.assertEquals(pf1Test.getTipo(), TipoPessoa.FuncionarioTecnico.getTipoValue());
+        Assert.assertEquals(pf1Test.getTipo().getTipoValue(), TipoPessoa.FuncionarioTecnico.getTipoValue());
     }
 
     @Test
@@ -72,7 +72,7 @@ public class FuncionarioTest {
             Assert.assertEquals(pf1Test.getRG(),"25935377299");
             Assert.assertEquals(pf1Test.getEndereço(),"863-9462 Accumsan Rd.");
             Assert.assertArrayEquals(pf1Test.getTelefone(),new String[]{"693-0186","1-946-717-2407"});
-            Assert.assertEquals(pf1Test.getTipo(), TipoPessoa.FuncionarioTecnico.getTipoValue());
+            Assert.assertEquals(pf1Test.getTipo().getTipoValue(), TipoPessoa.FuncionarioTecnico.getTipoValue());
         } catch (SQLException e) {
             e.printStackTrace();
             Assert.fail();
@@ -91,7 +91,7 @@ public class FuncionarioTest {
             Assert.assertEquals(pf1Test.getRG(),"49880321299");
             Assert.assertEquals(pf1Test.getEndereço(),"654-8611 Feugiat St.");
             Assert.assertArrayEquals(pf1Test.getTelefone(),new String[]{"1-816-370-6093","1-574-860-0116"});
-            Assert.assertEquals(pf1Test.getTipo(), TipoPessoa.FuncionarioTecnico.getTipoValue());
+            Assert.assertEquals(pf1Test.getTipo().getTipoValue(), TipoPessoa.FuncionarioTecnico.getTipoValue());
         } catch (SQLException e) {
             e.printStackTrace();
             Assert.fail();
