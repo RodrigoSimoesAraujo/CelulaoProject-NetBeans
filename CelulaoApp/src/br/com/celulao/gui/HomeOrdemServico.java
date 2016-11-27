@@ -229,8 +229,7 @@ public class HomeOrdemServico extends javax.swing.JDialog {
                         .addGap(0, 0, Short.MAX_VALUE)
                         .addComponent(btnRegistrarRelatoTecnico))
                     .addGroup(panelRelatoTecnicoLayout.createSequentialGroup()
-                        .addGap(48, 48, 48)
-                        .addComponent(jScrollPane5, javax.swing.GroupLayout.PREFERRED_SIZE, 271, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jScrollPane5, javax.swing.GroupLayout.PREFERRED_SIZE, 319, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(panelRelatoTecnicoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                             .addGroup(panelRelatoTecnicoLayout.createSequentialGroup()
@@ -256,7 +255,7 @@ public class HomeOrdemServico extends javax.swing.JDialog {
                 .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(btnRegistrarRelatoTecnico)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 14, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 21, Short.MAX_VALUE)
                 .addGroup(panelRelatoTecnicoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(panelRelatoTecnicoLayout.createSequentialGroup()
                         .addGroup(panelRelatoTecnicoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -270,8 +269,8 @@ public class HomeOrdemServico extends javax.swing.JDialog {
                             .addComponent(txtValorItemServico, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(btnAdicionarItemServico))
-                    .addComponent(jScrollPane5, javax.swing.GroupLayout.PREFERRED_SIZE, 118, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap())
+                    .addComponent(jScrollPane5, javax.swing.GroupLayout.PREFERRED_SIZE, 95, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(34, 34, 34))
         );
 
         AbasTecnicoAtendente.addTab("Técnico", panelRelatoTecnico);
@@ -304,7 +303,7 @@ public class HomeOrdemServico extends javax.swing.JDialog {
                 .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(btnRegistrarRelatoAtendente)
-                .addContainerGap(143, Short.MAX_VALUE))
+                .addContainerGap(150, Short.MAX_VALUE))
         );
 
         AbasTecnicoAtendente.addTab("Atendente", panelRelatoAtendente);
@@ -349,7 +348,7 @@ public class HomeOrdemServico extends javax.swing.JDialog {
                 .addGroup(panelOrcamentoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnAprovarOrcamento)
                     .addComponent(btnReprovarOrcamento))
-                .addContainerGap(170, Short.MAX_VALUE))
+                .addContainerGap(177, Short.MAX_VALUE))
         );
 
         AbasTecnicoAtendente.addTab("Orçamento", panelOrcamento);
@@ -376,7 +375,7 @@ public class HomeOrdemServico extends javax.swing.JDialog {
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnExecutarServico)
                     .addComponent(btnCobrarDevolver))
-                .addContainerGap(160, Short.MAX_VALUE))
+                .addContainerGap(167, Short.MAX_VALUE))
         );
 
         AbasTecnicoAtendente.addTab("Serviço", jPanel1);
@@ -403,8 +402,8 @@ public class HomeOrdemServico extends javax.swing.JDialog {
                 .addContainerGap()
                 .addComponent(panelDadosOS, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(AbasTecnicoAtendente, javax.swing.GroupLayout.PREFERRED_SIZE, 315, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 13, Short.MAX_VALUE)
+                .addComponent(AbasTecnicoAtendente)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(btnSair)
                 .addContainerGap())
         );
@@ -473,6 +472,16 @@ public class HomeOrdemServico extends javax.swing.JDialog {
         ComponentBehavior.completeAndEnable(txtModeloCelular,mainOrdemServico.getCelularModelo(),false);
         ComponentBehavior.completeAndEnable(txtPartesEntregues,mainOrdemServico.getCelularPartesEntregues(),false);
         ComponentBehavior.completeAndEnable(txtRelatoCliente,"");
+        
+        ComponentBehavior.completeAndEnable(txtRelatoAtendente,mainOrdemServico.getOrdemServicoDetalhes().getRelatoAtendente());
+        ComponentBehavior.completeAndEnable(txtValorTotalOrcamento,mainOrdemServico.getOrdemServicoDetalhes().getOrcamentoRealizado().toString());
+        ComponentBehavior.completeAndEnable(txtRelatoTecnico,mainOrdemServico.getOrdemServicoDetalhes().getAnaliseTecnico());
+        ComponentBehavior.completeAndEnable(txtRelatoCliente,mainOrdemServico.getOrdemServicoDetalhes().getRelatoCliente());
+        
+        if(mainOrdemServico.getOrdemServicoDetalhes().getOrdemServicoPecasServicos()!=null &&
+                mainOrdemServico.getOrdemServicoDetalhes().getOrdemServicoPecasServicos().size() > 0){
+            //TODO popular a table com so serviços realizados.
+        }
     }
     
     /**
