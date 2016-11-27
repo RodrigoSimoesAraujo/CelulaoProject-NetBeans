@@ -1,8 +1,11 @@
 package br.com.celulao.dao;
 
 import br.com.celulao.bean.OrdemServicoBean;
+import br.com.celulao.bean.OrdemServicoDetalhes;
+import br.com.celulao.constants.TipoAndamentoOS;
 import br.com.celulao.constants.TipoPessoa;
 import br.com.celulao.dao.DBConnection.MySQLDriverManager;
+import java.sql.Blob;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -44,23 +47,102 @@ public class OrdemServicoDAO {
         String celularPartesEntregues;
 
         List<OrdemServicoBean> ordemServicoBeanListReturn = new ArrayList<OrdemServicoBean>();
+        OrdemServicoBean newOS;
 
         while(rs!=null && rs.next()) {
             codOrdem = rs.getInt("codOrdem");
-            cod_pessoa = rs.getInt("CodCliente");;
+            cod_pessoa = rs.getInt("CodCliente");
             pessoaTipo = TipoPessoa.get(rs.getInt("PessoaTipoCliente"));
             ceularMarca = rs.getString("CelularMarca");
             celularModelo = rs.getString("CelularModelo");
             celularPartesEntregues = rs.getString("CelularPartesEntregues");
             if(codOrdem!=null) {
-                ordemServicoBeanListReturn.add(
-                        new OrdemServicoBean(
-                                codOrdem, cod_pessoa, pessoaTipo, ceularMarca, celularModelo, celularPartesEntregues
-                        )
-                );
+                newOS = new OrdemServicoBean(
+                                codOrdem, 
+                                cod_pessoa, 
+                                pessoaTipo, 
+                                ceularMarca, 
+                                celularModelo, 
+                                celularPartesEntregues);
+                newOS.setOrdemServicoDetalhes(findDetalhesOS(newOS));
+                ordemServicoBeanListReturn.add(newOS);
             }
         }
         return ordemServicoBeanListReturn;
+    }
+    
+    private static OrdemServicoDetalhes findDetalhesOS(OrdemServicoBean ordemServico) throws SQLException{
+        Connection conn = MySQLDriverManager.getConnection();
+        String query = "SELECT * FROM ordemservicoitem o where codOrdemExt = ?";
+        PreparedStatement selectByOrdemServico = conn.prepareStatement(query);
+        selectByOrdemServico.setInt(1,ordemServico.getCodOrdem());
+        ResultSet rs = selectByOrdemServico.executeQuery();
+
+        OrdemServicoDetalhes returnDetalhesOS = new OrdemServicoDetalhes();
+        
+        String osAndamento;
+        
+        while(rs!=null && rs.next()) {
+            osAndamento = rs.getString("Andamento");
+            if(osAndamento.equals(TipoAndamentoOS.RelatoCliente.getTipoValue())){
+                returnDetalhesOS.setRelatoCliente(
+                        getBlobValue(rs.getBlob("DescricaoItem")), 
+                        rs.getInt("CodOrdemItem"));
+                
+            }else if(osAndamento.equals(TipoAndamentoOS.RelatoAtendente.getTipoValue())){
+                returnDetalhesOS.setRelatoAtendente(
+                        getBlobValue(rs.getBlob("DescricaoItem")), 
+                        rs.getInt("CodOrdemItem"));
+            
+            }else if(osAndamento.equals(TipoAndamentoOS.AvaliacaoTecnico.getTipoValue())){
+                returnDetalhesOS.setAnaliseTecnico(
+                        getBlobValue(rs.getBlob("DescricaoItem")), 
+                        rs.getInt("CodOrdemItem"));
+                
+            }else if(osAndamento.equals(TipoAndamentoOS.OrcamentoPeca.getTipoValue())){
+                returnDetalhesOS.addPecaOrcamento(
+                        rs.getDouble("ValorItem"),
+                        rs.getInt("QtdItem"),
+                        getBlobValue(rs.getBlob("DescricaoItem")), 
+                        rs.getInt("CodOrdemItem"));
+                
+            }else if(osAndamento.equals(TipoAndamentoOS.OrcamentoServico.getTipoValue())){
+                returnDetalhesOS.addServicoOrcamento(
+                        rs.getDouble("ValorItem"),
+                        rs.getInt("QtdItem"),
+                        getBlobValue(rs.getBlob("DescricaoItem")), 
+                        rs.getInt("CodOrdemItem"));
+                
+            }else if(osAndamento.equals(TipoAndamentoOS.OrcamentoReprovado.getTipoValue())){
+                returnDetalhesOS.setOrcamentoReprovado(
+                        rs.getInt("CodOrdemItem"));
+                
+            }else if(osAndamento.equals(TipoAndamentoOS.OrcamentoAprovado.getTipoValue())){
+                returnDetalhesOS.setOrcamentoAprovado(
+                        rs.getInt("CodOrdemItem"));
+                
+            }else if(osAndamento.equals(TipoAndamentoOS.ServicoRealizado.getTipoValue())){
+                returnDetalhesOS.setServicoExecutado(
+                        rs.getInt("CodOrdemItem"));
+                
+            }else if(osAndamento.equals(TipoAndamentoOS.ServicoCobrado.getTipoValue())){
+                returnDetalhesOS.setServicoExecutado(
+                        rs.getInt("CodOrdemItem"));
+            
+            }else if(osAndamento.equals(TipoAndamentoOS.OrcamentoRealizado.getTipoValue())){
+                returnDetalhesOS.setOrcamentoRealizado(
+                        rs.getDouble("ValorItem"),
+                        rs.getInt("CodOrdemItem"));
+            }
+        }
+        
+        rs.close();
+        return returnDetalhesOS;
+    }
+    
+    private static String getBlobValue(Blob value) throws SQLException{
+        java.sql.Blob ablob = value;
+        return (new String(ablob.getBytes(1l, (int) ablob.length())));
     }
 
     public static void salveOrUpdate(OrdemServicoBean obj) throws SQLException {

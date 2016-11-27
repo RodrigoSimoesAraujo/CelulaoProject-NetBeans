@@ -10,7 +10,7 @@ import java.util.List;
 public final class ClientePJBean extends PessoaJuridicaBean implements Cliente{
     private static TipoPessoa tipo = TipoPessoa.ClientePJ;
     private PessoaFisicaBean responsavel;
-    private List<OrdemServicoBean> ordemServico;
+    private List<OrdemServicoBean> ordemServico= null;
 
     public ClientePJBean(String razaoSocial, String nomeFantasia, String insMunicipal, String insEstadual, String CNPJ, PessoaFisicaBean responsavel) {
         super(razaoSocial, nomeFantasia, insMunicipal, insEstadual, CNPJ);

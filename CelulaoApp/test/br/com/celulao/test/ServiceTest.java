@@ -13,8 +13,6 @@ import java.util.List;
 
 import static br.com.celulao.service.OrdemServicoService.*;
 import java.sql.SQLException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 /**
  * Created by SYSTEM on 19/11/2016.
@@ -54,7 +52,7 @@ public class ServiceTest {
     }
 
     @Test
-    public void searchOrdemServicoByClientePF(){
+    public void searchOrdemServicoByClientePFAndDetalhes(){
         ClientePFBean foundByCPF = ClienteService.searchClientePFByCPF("239457");
         Assert.assertEquals(foundByCPF.getCPF(),"239457");
 
@@ -69,6 +67,28 @@ public class ServiceTest {
         Assert.assertEquals(ordemServicoBean.get(indexOrdemServicoCliente).getCelularPartesEntregues(),"2 cabos usb");
         Assert.assertEquals(ordemServicoBean.get(indexOrdemServicoCliente).getCod_pessoa(),foundByCPF.getCod_pessoa());
         Assert.assertEquals(ordemServicoBean.get(indexOrdemServicoCliente).getPessoaTipo(),TipoPessoa.ClientePF);
+        
+        Assert.assertEquals(
+                ordemServicoBean.get(indexOrdemServicoCliente).getOrdemServicoDetalhes().getRelatoCliente(),
+                "Celular aquece muito.");        
+        Assert.assertEquals(
+                ordemServicoBean.get(indexOrdemServicoCliente).getOrdemServicoDetalhes().getRelatoAtendente(),
+                "Atendente - Celular aquece a parte traseira.");
+        Assert.assertEquals(
+                ordemServicoBean.get(indexOrdemServicoCliente).getOrdemServicoDetalhes().getAnaliseTecnico(),
+                "Tecnico - Celular bateria em curto ao carregar.");
+        Assert.assertEquals(
+                ordemServicoBean.get(indexOrdemServicoCliente).getOrdemServicoDetalhes().getOrdemServicoPecasServicos().size(),
+                2);
+        Assert.assertEquals(
+                ordemServicoBean.get(indexOrdemServicoCliente).getOrdemServicoDetalhes().isOrcamentoAprovado(),
+                true);
+        Assert.assertEquals(
+                ordemServicoBean.get(indexOrdemServicoCliente).getOrdemServicoDetalhes().isOrcamentoRealizado(),
+                true);
+        Assert.assertEquals(
+                ordemServicoBean.get(indexOrdemServicoCliente).getOrdemServicoDetalhes().getOrcamentoRealizado(),
+                new Double(230.72));
     }
 
     @Test

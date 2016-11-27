@@ -12,6 +12,7 @@ public class OrdemServicoBean {
     private String celularMarca;
     private String celularModelo;
     private String celularPartesEntregues;
+    private OrdemServicoDetalhes ordemServicoDetalhes;
 
     public OrdemServicoBean(Integer cod_pessoa,
                             TipoPessoa pessoaTipo,
@@ -82,5 +83,13 @@ public class OrdemServicoBean {
     public void setCelularPartesEntregues(String celularPartesEntregues) {
         this.celularPartesEntregues = celularPartesEntregues;
     }
+
+    public OrdemServicoDetalhes getOrdemServicoDetalhes() {
+        return ordemServicoDetalhes;
+    }
+
+    public void setOrdemServicoDetalhes(OrdemServicoDetalhes ordemServicoDetalhes) {
+        this.ordemServicoDetalhes = ordemServicoDetalhes;
+    }    
     
 }
