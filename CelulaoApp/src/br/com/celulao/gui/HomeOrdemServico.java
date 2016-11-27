@@ -473,6 +473,11 @@ public class HomeOrdemServico extends javax.swing.JDialog {
         ComponentBehavior.completeAndEnable(txtPartesEntregues,mainOrdemServico.getCelularPartesEntregues(),false);
         ComponentBehavior.completeAndEnable(txtRelatoCliente,"");
         
+        if(mainOrdemServico.getOrdemServicoDetalhes() != null )prepFieldsOrdemServicoEncontradaDetalhes();
+        
+    }
+    
+    private void prepFieldsOrdemServicoEncontradaDetalhes() {
         ComponentBehavior.completeAndEnable(txtRelatoAtendente,mainOrdemServico.getOrdemServicoDetalhes().getRelatoAtendente());
         ComponentBehavior.completeAndEnable(txtValorTotalOrcamento,mainOrdemServico.getOrdemServicoDetalhes().getOrcamentoRealizado().toString());
         ComponentBehavior.completeAndEnable(txtRelatoTecnico,mainOrdemServico.getOrdemServicoDetalhes().getAnaliseTecnico());
