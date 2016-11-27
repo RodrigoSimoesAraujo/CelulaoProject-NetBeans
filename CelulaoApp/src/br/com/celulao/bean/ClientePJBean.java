@@ -8,7 +8,7 @@ import java.util.List;
  * Created by SYSTEM on 19/11/2016.
  */
 public final class ClientePJBean extends PessoaJuridicaBean implements Cliente{
-    private static int tipo = TipoPessoa.ClientePJ.getTipoValue();
+    private static TipoPessoa tipo = TipoPessoa.ClientePJ;
     private PessoaFisicaBean responsavel;
     private List<OrdemServicoBean> ordemServico;
 
@@ -23,7 +23,7 @@ public final class ClientePJBean extends PessoaJuridicaBean implements Cliente{
     public PessoaFisicaBean getResponsavel() {
         return responsavel;
     }
-    public int getTipo() { return tipo; }
+    public TipoPessoa getTipo() { return tipo; }
 
     public List<OrdemServicoBean> getOrdemServico() {
         return ordemServico;
@@ -31,5 +31,9 @@ public final class ClientePJBean extends PessoaJuridicaBean implements Cliente{
 
     public void setOrdemServico(List<OrdemServicoBean> ordemServico) {
         this.ordemServico = ordemServico;
+    }
+
+    public Integer getCodPessoaOS() {
+        return responsavel.getCod_pessoa();
     }
 }

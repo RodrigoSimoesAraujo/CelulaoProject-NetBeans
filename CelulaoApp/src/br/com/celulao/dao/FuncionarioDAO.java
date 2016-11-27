@@ -9,14 +9,14 @@ import java.sql.SQLException;
 /**
  * Created by SYSTEM on 19/11/2016.
  */
-public class FuncionarioDAO extends PessoaFisicaDAO implements DAO<Funcionario> {
+public class FuncionarioDAO {
     public void insert (Funcionario obj){}
     public void delete (Funcionario obj){}
     public void update (Funcionario obj){}
 
     public Funcionario findByID(Integer id) throws SQLException {
         try{
-            PessoaFisicaBean pfFound = findPessoaFisicaByID(id);
+            PessoaFisicaBean pfFound = PessoaFisicaDAO.findPessoaFisicaByID(id);
             if(pfFound==null) return null;
             return bindPessoaFisicaToFuncionario(pfFound);
         }catch (SQLException e){
@@ -27,7 +27,7 @@ public class FuncionarioDAO extends PessoaFisicaDAO implements DAO<Funcionario> 
 
     public Funcionario findByCPF(String CPF) throws SQLException {
         try{
-            PessoaFisicaBean pfFound = findPessoaFisicaByCPF(CPF);
+            PessoaFisicaBean pfFound = PessoaFisicaDAO.findPessoaFisicaByCPF(CPF);
             if(pfFound==null) return null;
             return bindPessoaFisicaToFuncionario(pfFound);
         }catch (SQLException e){
@@ -37,7 +37,7 @@ public class FuncionarioDAO extends PessoaFisicaDAO implements DAO<Funcionario> 
     }
 
     private Funcionario bindPessoaFisicaToFuncionario(PessoaFisicaBean PF){
-        if(PF.getTipo()== TipoPessoa.FuncionarioAtendente.getTipoValue()) {
+        if(PF.getTipo().getTipoValue() == TipoPessoa.FuncionarioAtendente.getTipoValue()) {
             FuncionarioAtendenteBean returnFunc =
                     new FuncionarioAtendenteBean(PF.getEstado(),
                             PF.getCidade(),
@@ -48,7 +48,7 @@ public class FuncionarioDAO extends PessoaFisicaDAO implements DAO<Funcionario> 
                             PF.getCPF());
             returnFunc.setCod_pessoa(PF.getCod_pessoa());
             return returnFunc;
-        }else if(PF.getTipo()== TipoPessoa.FuncionarioTecnico.getTipoValue()) {
+        }else if(PF.getTipo().getTipoValue() == TipoPessoa.FuncionarioTecnico.getTipoValue()) {
             FuncionarioTecnicoBean returnFunc =
                     new FuncionarioTecnicoBean(PF.getEstado(),
                             PF.getCidade(),
@@ -62,5 +62,9 @@ public class FuncionarioDAO extends PessoaFisicaDAO implements DAO<Funcionario> 
         }else{
             return null;
         }
+    }
+    
+    public void salveOrUpdate(Funcionario obj) throws SQLException {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 }
