@@ -1,9 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<project version="4">
-  <component name="ProjectModuleManager">
-    <modules>
-      <module fileurl="file://$PROJECT_DIR$/CelulaoApp/CelulaoApp.iml" filepath="$PROJECT_DIR$/CelulaoApp/CelulaoApp.iml" />
-      <module fileurl="file://$PROJECT_DIR$/CelulaoProject.iml" filepath="$PROJECT_DIR$/CelulaoProject.iml" />
-    </modules>
-  </component>
-</project>
